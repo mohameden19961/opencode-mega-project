@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CodeGuard — Python Code Quality Analyzer</title>
+  <style>
+    :root { --bg: #0d1117; --fg: #c9d1d9; --accent: #58a6ff; --border: #30363d; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif; background: var(--bg); color: var(--fg); line-height: 1.6; }
+    .container { max-width: 960px; margin: 0 auto; padding: 2rem; }
+    header { text-align: center; padding: 4rem 0 2rem; }
+    h1 { font-size: 3rem; color: #fff; }
+    h1 span { color: var(--accent); }
+    .tagline { font-size: 1.2rem; color: #8b949e; margin-top: 0.5rem; }
+    .badges { margin: 1.5rem 0; display: flex; gap: 0.5rem; justify-content: center; flex-wrap: wrap; }
+    .badge { display: inline-block; padding: 0.25rem 0.75rem; border-radius: 999px; font-size: 0.85rem; background: #21262d; border: 1px solid var(--border); }
+    .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; margin: 3rem 0; }
+    .feature { padding: 1.5rem; border-radius: 8px; border: 1px solid var(--border); }
+    .feature h3 { color: #fff; margin-bottom: 0.5rem; }
+    .demo { background: #161b22; border-radius: 8px; border: 1px solid var(--border); padding: 1.5rem; margin: 2rem 0; overflow-x: auto; }
+    .demo pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; }
+    .install { background: #161b22; border-radius: 8px; border: 1px solid var(--border); padding: 2rem; margin: 2rem 0; text-align: center; }
+    .install code { background: #21262d; padding: 0.5rem 1rem; border-radius: 6px; font-size: 1.1rem; }
+    footer { text-align: center; padding: 3rem 0; color: #8b949e; font-size: 0.9rem; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Code<span>Guard</span></h1>
+      <p class="tagline">Python Code Quality Analyzer — 9 checks, 279 files, 0.58s</p>
+      <div class="badges">
+        <span class="badge">🐍 Python 3.8+</span>
+        <span class="badge">⚡ 9 Built-in Checks</span>
+        <span class="badge">📦 pip install codeguard</span>
+        <span class="badge">🔧 CLI & CI ready</span>
+      </div>
+    </header>
+
+    <div class="install">
+      <h2>Install in seconds</h2>
+      <code>pip install codeguard</code>
+      <p style="margin-top: 1rem; color: #8b949e;">Then run <code>codeguard analyze src/</code></p>
+    </div>
+
+    <div class="features">
+      <div class="feature">
+        <h3>🔍 9 Analysis Checks</h3>
+        <p>Style, Security, Performance, Complexity, Naming, Documentation, Imports, Duplication, Typing</p>
+      </div>
+      <div class="feature">
+        <h3>📊 Multiple Outputs</h3>
+        <p>Terminal, JSON, HTML, Markdown, CSV, XML, JUnit, SARIF, Dashboard</p>
+      </div>
+      <div class="feature">
+        <h3>🔧 Auto-fix</h3>
+        <p>Automatically fix common issues with <code>--fix</code> flag</p>
+      </div>
+      <div class="feature">
+        <h3>⚡ Fast</h3>
+        <p>Analyzes 279 files in under 1 second with parallel execution</p>
+      </div>
+      <div class="feature">
+        <h3>🐳 CI/CD Ready</h3>
+        <p>SARIF, JUnit, and JSON outputs integrate with GitHub, Jenkins, GitLab</p>
+      </div>
+      <div class="feature">
+        <h3>📈 Complexity Metrics</h3>
+        <p>Cyclomatic complexity, maintainability index, and more</p>
+      </div>
+    </div>
+
+    <div class="demo">
+      <h3>Demo: Analyzing itself</h3>
+      <pre>
+$ codeguard analyze src/
+
+[21:10:52] [INFO] Running 9 checks on 279 files
+[21:10:52] [INFO] Analysis complete: 556 violations in 279 files (0.58s)
+
+==========================================================
+  CodeGuard Analysis Report
+==========================================================
+  Files analyzed:  279
+  Total lines:     7157
+  Duration:        0.58s
+  Total violations: 556
+==========================================================
+  Severity Breakdown:
+    high      :    5  #####
+    low       :  176  ########################################
+    medium    :  375  ########################################
+==========================================================
+  Sample Violations:
+    [MEDIUM] Module missing docstring                base.py:1
+    [MEDIUM] Class 'BaseCheck' missing docstring     base.py:7
+    [MEDIUM] Function 'check' missing docstring      base.py:15
+==========================================================</pre>
+    </div>
+
+    <div style="margin: 3rem 0;">
+      <h2>Quick Start</h2>
+      <pre style="background: #161b22; padding: 1rem; border-radius: 8px; border: 1px solid var(--border); margin-top: 1rem; overflow-x: auto;">
+# Install
+pip install codeguard
+
+# Basic analysis
+codeguard analyze src/
+
+# Generate HTML report
+codeguard analyze src/ --format html --output report.html
+
+# Auto-fix issues
+codeguard analyze src/ --fix
+
+# CI-friendly JSON output
+codeguard analyze src/ --format json --output results.json
+
+# Watch mode (re-run on changes)
+codeguard analyze src/ --watch</pre>
+    </div>
+
+    <footer>
+      <p>Built with ❤️ | <a href="https://github.com/mohameden19961/codeguard">GitHub</a> | MIT License</p>
+    </footer>
+  </div>
+</body>
+</html>

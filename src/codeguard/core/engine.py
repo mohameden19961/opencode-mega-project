@@ -4,6 +4,7 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 from typing import List, Optional
 from dataclasses import dataclass, field
 from codeguard.config import Config
+from codeguard.core.types import Violation
 from codeguard.core.collector import FileCollector
 from codeguard.checks.base import CheckRegistry
 from codeguard.checks.complexity import ComplexityCheck
@@ -22,8 +23,8 @@ from codeguard.checks.concurrency import ConcurrencyCheck
 from codeguard.checks.api_design import APIDesignCheck
 from codeguard.checks.testing import TestingCheck
 from codeguard.checks.dependencies import DependencyCheck
-from codeguard.checks.best_practices import best_practices
-from codeguard.checks.maintainability import maintainability
+from codeguard.checks.best_practices import BestPracticesCheck
+from codeguard.checks.maintainability import MaintainabilityCheck
 
 
 
@@ -41,15 +42,7 @@ from codeguard.utils.parallel import ParallelExecutor
 from codeguard.exceptions import AnalysisError
 
 
-@dataclass
-class Violation:
-    check_name: str
-    severity: str
-    message: str
-    file_path: str
-    line_number: int = 0
-    column: int = 0
-    suggestion: Optional[str] = None
+
 
 
 @dataclass
@@ -125,8 +118,8 @@ class AnalysisEngine:
 
     def _register_checks(self):
         CheckRegistry.register(ComplexityCheck)
-        CheckRegistry.register(maintainability)
-        CheckRegistry.register(best_practices)
+        CheckRegistry.register(MaintainabilityCheck)
+        CheckRegistry.register(BestPracticesCheck)
         CheckRegistry.register(DependencyCheck)
         CheckRegistry.register(TestingCheck)
         CheckRegistry.register(APIDesignCheck)

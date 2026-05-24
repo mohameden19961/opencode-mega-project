@@ -21,6 +21,23 @@
 
 **CodeGuard** is a comprehensive static analysis tool that scans your Python codebase for complexity issues, security vulnerabilities, style violations, performance bottlenecks, and more — with multiple output formats, auto-fix capabilities, and CI/CD integration.
 
+```text
+$ codeguard analyze src/
+
+[21:10:52] [INFO] Running 9 checks on 279 files
+[21:10:52] [INFO] Analysis complete: 556 violations in 279 files (0.58s)
+
+==========================================================
+  Severity Breakdown:
+    high      :    5  #####
+    low       :  176  ########################################
+    medium    :  375  ########################################
+==========================================================
+```
+
+[![GitHub Pages](https://img.shields.io/badge/GitHub_Pages-live-22d3ee?style=flat-square)](https://mohameden19961.github.io/codeguard/)
+[![PyPI](https://img.shields.io/badge/PyPI-coming_soon-3776AB?style=flat-square&logo=pypi&logoColor=white)](https://pypi.org/project/codeguard/)
+
 </div>
 
 ---

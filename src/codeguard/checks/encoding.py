@@ -2,7 +2,7 @@ import os
 from typing import List
 from codeguard.config import Config
 from codeguard.checks.base import BaseCheck
-from codeguard.core.engine import Violation
+from codeguard.core.types import Violation
 
 class EncodingCheck(BaseCheck):
     name = "encoding"

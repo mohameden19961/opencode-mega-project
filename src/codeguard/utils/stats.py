@@ -1,4 +1,3 @@
-
 import statistics
 from typing import List, Dict, Any
 from codeguard.config import Config
@@ -11,11 +10,9 @@ class StatsUtils:
         for v in results.violations:
             severities[v.severity] = severities.get(v.severity, 0) + 1
         check_counts = {}
-        for v in results.violations:
-            check_counts[v.check_name] = check_counts.get(v.check_name, 0) + 1
-        return {
-            "total": len(results.violations),
-            "severities": severities,
-            "by_check": check_counts,
-            "avg_per_file": len(results.violations) / max(results.files_analyzed, 1),
-        }
+
+    @staticmethod
+    def get_summary(results: AnalysisResults) -> str:
+        total = len(results.violations)
+        sev = results.count_by_severity()
+        return f"Found {total} violations ({sev.get('critical',0)} critical, {sev.get('high',0)} high, {sev.get('medium',0)} medium, {sev.get('low',0)} low)"

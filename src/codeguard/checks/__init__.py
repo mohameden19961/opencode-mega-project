@@ -22,5 +22,5 @@ from codeguard.checks.concurrency import ConcurrencyCheck
 from codeguard.checks.api_design import APIDesignCheck
 from codeguard.checks.testing import TestingCheck
 from codeguard.checks.dependencies import DependencyCheck
-from codeguard.checks.best_practices import best_practices
-from codeguard.checks.maintainability import maintainability
+from codeguard.checks.best_practices import BestPracticesCheck
+from codeguard.checks.maintainability import MaintainabilityCheck

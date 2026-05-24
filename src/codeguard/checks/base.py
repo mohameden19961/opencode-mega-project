@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import List, Dict, Type
 from codeguard.config import Config
-from codeguard.core.engine import Violation
+from codeguard.core.types import Violation
 
 
 class BaseCheck(ABC):
