@@ -1,0 +1,18 @@
+[build-system]
+requires = ["setuptools>=64", "wheel"]
+build-backend = "setuptools.backends._legacy:_Backend"
+
+[project]
+name = "codeguard"
+description = "Python code quality and security analysis tool"
+readme = "README.md"
+requires-python = ">=3.9"
+license = {text = "MIT"}
+keywords = ["code-quality", "security", "linter", "analyzer"]
+dynamic = ["version"]
+
+[project.scripts]
+codeguard = "codeguard.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]

@@ -1,0 +1,145 @@
+import os
+import time
+from concurrent.futures import ThreadPoolExecutor, as_completed
+from typing import List, Optional
+from dataclasses import dataclass, field
+from codeguard.config import Config
+from codeguard.core.collector import FileCollector
+from codeguard.checks.base import CheckRegistry
+from codeguard.checks.complexity import ComplexityCheck
+from codeguard.checks.style import StyleCheck
+from codeguard.checks.security import SecurityCheck
+from codeguard.checks.performance import PerformanceCheck
+from codeguard.checks.documentation import DocumentationCheck
+from codeguard.checks.naming import NamingCheck
+from codeguard.checks.imports import ImportCheck
+from codeguard.checks.duplication import DuplicationCheck
+from codeguard.checks.typing import TypingCheck
+from codeguard.utils.cache import AnalysisCache
+from codeguard.utils.timer import Timer
+from codeguard.utils.log import Logger
+from codeguard.utils.parallel import ParallelExecutor
+from codeguard.exceptions import AnalysisError
+
+
+@dataclass
+class Violation:
+    check_name: str
+    severity: str
+    message: str
+    file_path: str
+    line_number: int = 0
+    column: int = 0
+    suggestion: Optional[str] = None
+
+
+@dataclass
+class AnalysisResults:
+    violations: List[Violation] = field(default_factory=list)
+    files_analyzed: int = 0
+    total_lines: int = 0
+    duration: float = 0.0
+    errors: List[str] = field(default_factory=list)
+
+    def get_violations(self, min_severity: str = "low") -> List[Violation]:
+        severity_order = {"low": 0, "medium": 1, "high": 2, "critical": 3}
+        threshold = severity_order.get(min_severity, 0)
+        return [
+            v for v in self.violations
+            if severity_order.get(v.severity, 0) >= threshold
+        ]
+
+    def count_by_severity(self) -> dict:
+        counts = {"low": 0, "medium": 0, "high": 0, "critical": 0}
+        for v in self.violations:
+            if v.severity in counts:
+                counts[v.severity] += 1
+        return counts
+
+    def count_by_check(self) -> dict:
+        counts = {}
+        for v in self.violations:
+            counts[v.check_name] = counts.get(v.check_name, 0) + 1
+        return counts
+
+
+class AnalysisEngine:
+    def __init__(self, config: Config):
+        self.config = config
+        self.logger = Logger(verbose=config.verbose)
+        self.cache = AnalysisCache(config.cache_dir) if config.use_cache else None
+        self.collector = FileCollector(config)
+        self._register_checks()
+
+    def _register_checks(self):
+        CheckRegistry.register(ComplexityCheck)
+        CheckRegistry.register(StyleCheck)
+        CheckRegistry.register(SecurityCheck)
+        CheckRegistry.register(PerformanceCheck)
+        CheckRegistry.register(DocumentationCheck)
+        CheckRegistry.register(NamingCheck)
+        CheckRegistry.register(ImportCheck)
+        CheckRegistry.register(DuplicationCheck)
+        CheckRegistry.register(TypingCheck)
+
+    def run(self, paths: List[str]) -> AnalysisResults:
+        timer = Timer()
+        timer.start()
+        results = AnalysisResults()
+        files = self.collector.collect(paths)
+        results.files_analyzed = len(files)
+        if not files:
+            self.logger.warning("No files found to analyze")
+            timer.stop()
+            results.duration = timer.elapsed()
+            return results
+
+        checks = CheckRegistry.get_enabled(self.config.checks_enabled)
+        self.logger.info(f"Running {len(checks)} checks on {len(files)} files")
+
+        executor = ParallelExecutor(max_workers=self.config.max_workers)
+
+        def analyze_file(file_path):
+            file_violations = []
+            try:
+                with open(file_path, "r", encoding="utf-8", errors="ignore") as f:
+                    content = f.read()
+                lines = content.split("\n")
+                results.total_lines += len(lines)
+                cached = self.cache and self.cache.get(file_path)
+                if cached and cached["hash"] == hash(content):
+                    self.logger.debug(f"Cache hit: {file_path}")
+                    return cached["violations"]
+                for check in checks:
+                    try:
+                        check_instance = check(config=self.config)
+                        violations = check_instance.check(file_path, content, lines)
+                        file_violations.extend(violations)
+                    except Exception as e:
+                        self.logger.error(f"Check {check.__name__} failed on {file_path}: {e}")
+                        results.errors.append(f"{check.__name__}:{file_path}: {e}")
+                if self.cache:
+                    self.cache.set(file_path, hash(content), file_violations)
+            except Exception as e:
+                self.logger.error(f"Error analyzing {file_path}: {e}")
+                results.errors.append(f"Error:{file_path}: {e}")
+            return file_violations
+
+        file_results = executor.map(analyze_file, files)
+        for file_violations in file_results:
+            results.violations.extend(file_violations)
+
+        timer.stop()
+        results.duration = timer.elapsed()
+        self.logger.info(
+            f"Analysis complete: {len(results.violations)} violations "
+            f"in {results.files_analyzed} files ({results.duration:.2f}s)"
+        )
+        return results
+
+
+def analyze(paths: List[str], config: Optional[Config] = None) -> AnalysisResults:
+    if config is None:
+        config = Config.default()
+    engine = AnalysisEngine(config=config)
+    return engine.run(paths)

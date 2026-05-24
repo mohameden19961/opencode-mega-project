@@ -1,0 +1,48 @@
+verbose: false
+use_cache: true
+cache_dir: .codeguard_cache
+severity_threshold: low
+max_workers: 4
+timeout: 60
+checks_enabled:
+  - complexity
+  - style
+  - security
+  - performance
+  - documentation
+  - naming
+  - imports
+  - duplication
+  - typing
+exclude_patterns:
+  - "*.pyc"
+  - __pycache__
+  - .git
+  - venv
+  - .venv
+  - build
+  - dist
+  - "*.egg-info"
+complexity:
+  max_cyclomatic: 10
+  max_cognitive: 15
+  max_nesting: 4
+  max_lines_per_function: 50
+  max_parameters: 6
+style:
+  max_line_length: 100
+  indent: 4
+  trailing_whitespace: false
+security:
+  level: high
+  check_sql_injection: true
+  check_path_traversal: true
+  check_command_injection: true
+performance:
+  check_nested_loops: true
+  check_large_allocations: true
+  check_slow_imports: true
+documentation:
+  require_docstrings: true
+  min_docstring_length: 10
+  check_public_api: true

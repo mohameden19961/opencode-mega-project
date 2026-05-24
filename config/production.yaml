@@ -1,0 +1,32 @@
+verbose: false
+use_cache: true
+cache_dir: .codeguard_cache
+severity_threshold: medium
+max_workers: 8
+timeout: 120
+checks_enabled:
+  - security
+  - complexity
+  - duplication
+  - performance
+exclude_patterns:
+  - "*.pyc"
+  - __pycache__
+  - .git
+  - venv
+  - build
+  - dist
+  - tests
+complexity:
+  max_cyclomatic: 12
+  max_nesting: 5
+  max_lines_per_function: 80
+security:
+  level: critical
+  check_sql_injection: true
+  check_path_traversal: true
+  check_command_injection: true
+performance:
+  check_nested_loops: true
+  check_large_allocations: false
+  check_slow_imports: true
