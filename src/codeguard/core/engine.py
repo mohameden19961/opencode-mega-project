@@ -81,12 +81,45 @@ class AnalysisResults:
         return counts
 
 
+from abc import ABC, abstractmethod
+
+class IFileReader(ABC):
+    @abstractmethod
+    def read_file(self, path: str) -> str:
+        pass
+
+class ICheckRunner(ABC):
+    @abstractmethod
+    def run_checks(self, file_path: str, content: str, lines: list) -> list:
+        pass
+
+class FileReader(IFileReader):
+    def read_file(self, path):
+        with open(path, "r", encoding="utf-8", errors="ignore") as f:
+            return f.read()
+
+class CheckRunner(ICheckRunner):
+    def __init__(self, config, checks):
+        self.config = config
+        self.checks = checks
+    def run_checks(self, file_path, content, lines):
+        violations = []
+        for check in self.checks:
+            try:
+                inst = check(config=self.config)
+                violations.extend(inst.check(file_path, content, lines))
+            except Exception:
+                pass
+        return violations
+
 class AnalysisEngine:
-    def __init__(self, config: Config):
+    def __init__(self, config: Config, file_reader: IFileReader = None, check_runner: ICheckRunner = None):
         self.config = config
         self.logger = Logger(verbose=config.verbose)
         self.cache = AnalysisCache(config.cache_dir) if config.use_cache else None
         self.collector = FileCollector(config)
+        self.file_reader = file_reader or FileReader()
+        self.check_runner = check_runner
         self._register_checks()
 
     def _register_checks(self):
@@ -129,8 +162,7 @@ class AnalysisEngine:
         def analyze_file(file_path):
             file_violations = []
             try:
-                with open(file_path, "r", encoding="utf-8", errors="ignore") as f:
-                    content = f.read()
+                content = self.file_reader.read_file(file_path)
                 lines = content.split("\n")
                 results.total_lines += len(lines)
                 cached = self.cache and self.cache.get(file_path)
