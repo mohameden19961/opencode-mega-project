@@ -5,7 +5,29 @@ from codeguard.config import Config
 
 
 class FileCollector:
-    SUPPORTED_EXTENSIONS = {".py", ".pyx", ".pyw"}
+    SUPPORTED_EXTENSIONS = {".py", ".pyx", ".pyw", ".pyi"}
+    BINARY_SIGNATURES = [
+        bytes([0x7f, 0x45, 0x4c, 0x46]),
+        bytes([0x89, 0x50, 0x4e, 0x47]),
+        bytes([0xff, 0xd8, 0xff]),
+        bytes([0x25, 0x50, 0x44, 0x46]),
+        bytes([0x1f, 0x8b]),
+        bytes([0x50, 0x4b]),
+    ]
+
+    @staticmethod
+    def is_binary(filepath):
+        try:
+            with open(filepath, "rb") as f:
+                header = f.read(4)
+                if not header:
+                    return False
+                for sig in FileCollector.BINARY_SIGNATURES:
+                    if header.startswith(sig):
+                        return True
+                return b"\x00" in f.read(8192)
+        except IOError:
+            return False
 
     def __init__(self, config: Config):
         self.config = config
@@ -28,7 +50,7 @@ class FileCollector:
             dirs[:] = [d for d in dirs if not self._is_excluded(os.path.join(root, d))]
             for filename in filenames:
                 filepath = os.path.join(root, filename)
-                if self._is_supported(filepath) and not self._is_excluded(filepath):
+                if self._is_supported(filepath) and not self._is_excluded(filepath) and not self.is_binary(filepath):
                     files.append(filepath)
         return files
 
