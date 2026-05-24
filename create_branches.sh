@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-REPO_DIR="/tmp/opencode/opencode-mega-project"
+REPO_DIR="/tmp/opencode/codeguard"
 cd "$REPO_DIR"
 
 git config user.email "abdymohameden439@gmail.com"
@@ -503,7 +503,7 @@ cat > docs/pre-commit-integration.md << 'PYEOF'
 Add to `.pre-commit-config.yaml`:
 ```yaml
 repos:
-  - repo: https://github.com/mohameden19961/opencode-mega-project
+  - repo: https://github.com/mohameden19961/codeguard
     rev: v0.1.0
     hooks:
       - id: codeguard

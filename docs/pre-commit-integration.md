@@ -4,7 +4,7 @@
 Add to `.pre-commit-config.yaml`:
 ```yaml
 repos:
-  - repo: https://github.com/mohameden19961/opencode-mega-project
+  - repo: https://github.com/mohameden19961/codeguard
     rev: v0.1.0
     hooks:
       - id: codeguard

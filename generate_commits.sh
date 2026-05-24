@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-REPO_DIR="/tmp/opencode/opencode-mega-project"
+REPO_DIR="/tmp/opencode/codeguard"
 cd "$REPO_DIR"
 
 COMMIT_NUM=0

@@ -6,7 +6,7 @@ import random
 import subprocess
 import sys
 
-REPO = "/tmp/opencode/opencode-mega-project"
+REPO = "/tmp/opencode/codeguard"
 SRC = os.path.join(REPO, "src", "codeguard")
 TESTS = os.path.join(REPO, "tests")
 DOCS = os.path.join(REPO, "docs")

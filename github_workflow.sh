@@ -1,8 +1,8 @@
 #!/bin/bash
 set -e
 
-REPO="mohameden19961/opencode-mega-project"
-DIR="/tmp/opencode/opencode-mega-project"
+REPO="mohameden19961/codeguard"
+DIR="/tmp/opencode/codeguard"
 cd "$DIR"
 
 echo "=== CREATING ISSUES ==="
@@ -713,7 +713,7 @@ class SARIFWriter:
                     "driver": {
                         "name": "CodeGuard",
                         "version": "0.1.0",
-                        "informationUri": "https://github.com/mohameden19961/opencode-mega-project",
+                        "informationUri": "https://github.com/mohameden19961/codeguard",
                         "rules": list(rules.values()),
                     }
                 },
@@ -949,7 +949,7 @@ Add to your `.pre-commit-config.yaml`:
 
 ```yaml
 repos:
-  - repo: https://github.com/mohameden19961/opencode-mega-project
+  - repo: https://github.com/mohameden19961/codeguard
     rev: v0.1.0
     hooks:
       - id: codeguard
