@@ -8,3 +8,4 @@ from codeguard.output.csv_writer import CSVWriter
 from codeguard.output.xml_writer import XMLWriter
 from codeguard.output.junit_writer import JUNITWriter
 from codeguard.output.sarif_writer import SARIFWriter
+from codeguard.output.dashboard import DashboardWriter
