@@ -217,6 +217,7 @@ codeguard analyze src/
 | 🎨 **Style** | Line length, whitespace, naming, imports | HTML | ✅ Pre-commit |
 | ⚡ **Performance** | Nested loops, memory, slow imports | JSON | ✅ Jenkins |
 | 📚 **Documentation** | Module/function/class docstrings | Markdown | ✅ GitLab CI |
+| 🔐 **SSH Security** | Config audit, weak keys, port scanning | Terminal | ✅ CLI |
 | 🔄 **Duplication** | Code clone detection, similarity | CSV | ✅ CLI |
 | 🏷️ **Typing** | Type annotation coverage, return types | JUnit | ✅ Any CI |
 

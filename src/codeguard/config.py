@@ -67,6 +67,7 @@ class Config:
     checks_enabled: List[str] = field(default_factory=lambda: [
         "complexity", "style", "security", "performance",
         "documentation", "naming", "imports", "duplication", "typing",
+        "ssh_config", "ssh_keys", "ssh_port",
     ])
     exclude_patterns: List[str] = field(default_factory=lambda: [
         "*.pyc", "__pycache__", ".git", "venv", ".venv",

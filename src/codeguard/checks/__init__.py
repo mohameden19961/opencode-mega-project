@@ -24,3 +24,4 @@ from codeguard.checks.testing import TestingCheck
 from codeguard.checks.dependencies import DependencyCheck
 from codeguard.checks.best_practices import BestPracticesCheck
 from codeguard.checks.maintainability import MaintainabilityCheck
+from codeguard.checks.ssh import SSHConfigCheck, SSHKeyCheck, SSHPortCheck

@@ -6,6 +6,10 @@ from codeguard.config import Config
 
 class FileCollector:
     SUPPORTED_EXTENSIONS = {".py", ".pyx", ".pyw", ".pyi"}
+    SUPPORTED_FILENAMES = {
+        "sshd_config", "ssh_config", "authorized_keys", "known_hosts",
+        "id_rsa", "id_ed25519", "id_ecdsa", "id_dsa",
+    }
     BINARY_SIGNATURES = [
         bytes([0x7f, 0x45, 0x4c, 0x46]),
         bytes([0x89, 0x50, 0x4e, 0x47]),
@@ -56,7 +60,10 @@ class FileCollector:
 
     def _is_supported(self, filepath: str) -> bool:
         ext = os.path.splitext(filepath)[1]
-        return ext in self.SUPPORTED_EXTENSIONS
+        if ext in self.SUPPORTED_EXTENSIONS:
+            return True
+        basename = os.path.basename(filepath)
+        return basename in self.SUPPORTED_FILENAMES
 
     def _is_excluded(self, filepath: str) -> bool:
         for pattern in self.config.exclude_patterns:

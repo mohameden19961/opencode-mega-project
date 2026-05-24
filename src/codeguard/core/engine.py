@@ -25,7 +25,7 @@ from codeguard.checks.testing import TestingCheck
 from codeguard.checks.dependencies import DependencyCheck
 from codeguard.checks.best_practices import BestPracticesCheck
 from codeguard.checks.maintainability import MaintainabilityCheck
-
+from codeguard.checks.ssh import SSHConfigCheck, SSHKeyCheck, SSHPortCheck
 
 
 
@@ -135,6 +135,9 @@ class AnalysisEngine:
         CheckRegistry.register(ImportCheck)
         CheckRegistry.register(DuplicationCheck)
         CheckRegistry.register(TypingCheck)
+        CheckRegistry.register(SSHConfigCheck)
+        CheckRegistry.register(SSHKeyCheck)
+        CheckRegistry.register(SSHPortCheck)
 
     def run(self, paths: List[str]) -> AnalysisResults:
         timer = Timer()
