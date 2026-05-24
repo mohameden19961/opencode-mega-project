@@ -3,6 +3,7 @@ import yaml
 from dataclasses import dataclass, field, asdict
 from typing import Optional, Dict, List, Any
 from codeguard.exceptions import ConfigurationError
+from codeguard.config_schema import validate_config
 
 
 @dataclass
