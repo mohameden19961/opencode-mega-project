@@ -11,6 +11,6 @@ jobs:
         with: {python-version: '3.11'}
       - uses: ./.github/actions/codeguard
         with:
-          path: src/
+          path: src/codeguard/
           severity: medium
           format: terminal

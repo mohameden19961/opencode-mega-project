@@ -20,7 +20,7 @@ inputs:
 runs:
   using: 'composite'
   steps:
-    - run: pip install codeguard
+    - run: pip install -e .
       shell: bash
     - run: |
         ARGS="${{ inputs.path }} --severity ${{ inputs.severity }} --format ${{ inputs.format }}"
