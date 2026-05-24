@@ -107,7 +107,7 @@
 <p align="center">
   <a href="https://mohameden19961.github.io/codeguard/"><img src="https://img.shields.io/badge/GitHub_Pages-Live-22d3ee?style=flat-square&logo=githubpages&logoColor=white" alt="Pages"></a>
   <a href="https://pypi.org/project/codeguard/"><img src="https://img.shields.io/badge/PyPI-Coming_Soon-3776AB?style=flat-square&logo=pypi&logoColor=white" alt="PyPI"></a>
-  <a href="https://github.com/mohameden19961/codeguard/actions"><img src="https://img.shields.io/github/actions/workflow/status/mohameden19961/codeguard/codeguard.yml?branch=main&label=CI&style=flat-square&logo=githubactions" alt="CI"></a>
+  <img src="https://img.shields.io/github/actions/workflow/status/mohameden19961/codeguard/codeguard.yml?branch=main&label=CI&style=flat-square&logo=githubactions&color=22d3ee" alt="CI">
   <img src="https://img.shields.io/github/repo-size/mohameden19961/codeguard?style=flat-square&label=size&logo=files" alt="Size">
   <img src="https://img.shields.io/github/languages/top/mohameden19961/codeguard?style=flat-square&logo=python&label=python" alt="Language">
 </p>
