@@ -1,0 +1,35 @@
+name: 'CodeGuard Analysis'
+description: 'Run CodeGuard static analysis on Python code'
+inputs:
+  path:
+    description: 'Path(s) to analyze'
+    required: true
+    default: 'src/'
+  severity:
+    description: 'Minimum severity threshold'
+    required: false
+    default: 'high'
+  format:
+    description: 'Output format'
+    required: false
+    default: 'sarif'
+  upload-sarif:
+    description: 'Upload SARIF results'
+    required: false
+    default: 'true'
+runs:
+  using: 'composite'
+  steps:
+    - run: pip install codeguard
+      shell: bash
+    - run: |
+        ARGS="${{ inputs.path }} --severity ${{ inputs.severity }} --format ${{ inputs.format }}"
+        codeguard analyze $ARGS --output codeguard_report.${{ inputs.format }}
+      shell: bash
+    - if: inputs.upload-sarif == 'true' && inputs.format == 'sarif'
+      uses: github/codeql-action/upload-sarif@v3
+      with:
+        sarif_file: codeguard_report.sarif
+branding:
+  icon: 'shield'
+  color: 'green'
