@@ -1,0 +1,1 @@
+# Guide Topic 24\n\n## Overview\n\nThis guide covers topic 24.\n

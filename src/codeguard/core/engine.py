@@ -15,6 +15,24 @@ from codeguard.checks.naming import NamingCheck
 from codeguard.checks.imports import ImportCheck
 from codeguard.checks.duplication import DuplicationCheck
 from codeguard.checks.typing import TypingCheck
+from codeguard.checks.encoding import EncodingCheck
+from codeguard.checks.error_handling import ErrorHandlingCheck
+from codeguard.checks.logging import LoggingCheck
+from codeguard.checks.concurrency import ConcurrencyCheck
+from codeguard.checks.api_design import APIDesignCheck
+from codeguard.checks.testing import TestingCheck
+from codeguard.checks.dependencies import DependencyCheck
+from codeguard.checks.best_practices import best_practices
+from codeguard.checks.maintainability import maintainability
+
+
+
+
+
+
+
+
+
 from codeguard.utils.cache import AnalysisCache
 from codeguard.utils.timer import Timer
 from codeguard.utils.log import Logger
@@ -73,6 +91,15 @@ class AnalysisEngine:
 
     def _register_checks(self):
         CheckRegistry.register(ComplexityCheck)
+        CheckRegistry.register(maintainability)
+        CheckRegistry.register(best_practices)
+        CheckRegistry.register(DependencyCheck)
+        CheckRegistry.register(TestingCheck)
+        CheckRegistry.register(APIDesignCheck)
+        CheckRegistry.register(ConcurrencyCheck)
+        CheckRegistry.register(LoggingCheck)
+        CheckRegistry.register(ErrorHandlingCheck)
+        CheckRegistry.register(EncodingCheck)
         CheckRegistry.register(StyleCheck)
         CheckRegistry.register(SecurityCheck)
         CheckRegistry.register(PerformanceCheck)

@@ -15,3 +15,12 @@ __all__ = [
     "PerformanceCheck", "DocumentationCheck", "NamingCheck",
     "ImportCheck", "DuplicationCheck", "TypingCheck",
 ]
+from codeguard.checks.encoding import EncodingCheck
+from codeguard.checks.error_handling import ErrorHandlingCheck
+from codeguard.checks.logging import LoggingCheck
+from codeguard.checks.concurrency import ConcurrencyCheck
+from codeguard.checks.api_design import APIDesignCheck
+from codeguard.checks.testing import TestingCheck
+from codeguard.checks.dependencies import DependencyCheck
+from codeguard.checks.best_practices import best_practices
+from codeguard.checks.maintainability import maintainability

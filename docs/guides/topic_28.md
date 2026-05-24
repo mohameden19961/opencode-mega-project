@@ -1,0 +1,1 @@
+# Guide Topic 28\n\n## Overview\n\nThis guide covers topic 28.\n

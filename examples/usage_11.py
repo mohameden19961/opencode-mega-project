@@ -1,0 +1,16 @@
+"""Example 11 - demonstrates CodeGuard usage pattern 11."""
+
+from codeguard import analyze
+from codeguard.config import Config
+
+
+def run_analysis():
+    config = Config.default()
+    config.severity_threshold = "medium" if 11 % 2 == 0 else "high"
+    results = analyze(["src/"], config=config)
+    print(f"Found {len(results.violations)} violations")
+    return results
+
+
+if __name__ == "__main__":
+    run_analysis()

@@ -10,3 +10,6 @@ __all__ = [
     "FileSystemUtils", "GitUtils", "ASTUtils",
     "ParallelExecutor", "AnalysisCache", "Logger", "Timer",
 ]
+from codeguard.utils.network import NetworkUtils
+from codeguard.utils.hash import HashUtils
+from codeguard.utils.stats import StatsUtils
