@@ -35,6 +35,7 @@ from codeguard.checks.maintainability import maintainability
 
 from codeguard.utils.cache import AnalysisCache
 from codeguard.utils.timer import Timer
+from codeguard.core.scanner import IncrementalScanner
 from codeguard.utils.log import Logger
 from codeguard.utils.parallel import ParallelExecutor
 from codeguard.exceptions import AnalysisError
@@ -113,7 +114,11 @@ class AnalysisEngine:
         timer = Timer()
         timer.start()
         results = AnalysisResults()
-        files = self.collector.collect(paths)
+        if self.config.use_cache:
+            scanner = IncrementalScanner(self.config)
+            files = scanner.get_changed_files(paths)
+        else:
+            files = self.collector.collect(paths)
         results.files_analyzed = len(files)
         if not files:
             self.logger.warning("No files found to analyze")
