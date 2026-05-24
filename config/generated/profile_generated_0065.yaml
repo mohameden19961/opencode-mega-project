@@ -1,0 +1,13 @@
+# Generated profile 0065
+verbose: False
+use_cache: true
+severity_threshold: medium
+max_workers: 2
+checks_enabled:
+  - complexity
+  - style
+  - security
+complexity:
+  max_cyclomatic: 15
+style:
+  max_line_length: 115
