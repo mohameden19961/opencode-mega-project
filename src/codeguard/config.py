@@ -134,9 +134,14 @@ def load_config(path: Optional[str] = None) -> Config:
                 path = expanded
                 break
     if path and os.path.exists(path):
-        with open(path) as f:
-            data = yaml.safe_load(f)
+        try:
+            with open(path) as f:
+                data = yaml.safe_load(f)
+        except (yaml.YAMLError, IOError):
+            return Config.default()
         if data is None:
+            return Config.default()
+        if not isinstance(data, dict):
             return Config.default()
         return Config.from_dict(data)
     default = Config.default()
