@@ -104,5 +104,34 @@ def _get_writer(output_format, output, config):
     return writer_cls(output_path=output, config=config)
 
 
+
+
+@cli.command()
+@click.argument("paths", nargs=-1, required=True)
+@click.option("--dry-run", is_flag=True, default=False)
+@click.option("--fixers", "-F", default=None)
+@click.pass_context
+def fix(ctx, paths, dry_run, fixers):
+    """Auto-fix common issues in code."""
+    from codeguard.fixers.whitespace import TrailingWhitespaceFixer
+    from codeguard.fixers.lines import LineEndingFixer
+    config = ctx.obj["config"]
+    available = {"trailing_whitespace": TrailingWhitespaceFixer(config), "line_endings": LineEndingFixer(config)}
+    active = {k: v for k, v in available.items() if not fixers or k in fixers.split(",")}
+    from codeguard.core.collector import FileCollector
+    files = FileCollector(config).collect(list(paths))
+    total = 0
+    for fp in files:
+        with open(fp, "r", encoding="utf-8", errors="ignore") as f:
+            content = f.read()
+        lines = content.split("\n")
+        for name, fixer in active.items():
+            result = fixer.fix(fp, content, lines)
+            if result.fixed:
+                label = "[DRY-RUN]" if dry_run else "[FIXED]"
+                click.echo(f"{label} {fp}: {result.description}")
+                total += result.changes_made
+    click.echo(f"{'Would fix' if dry_run else 'Fixed'} {total} issues")
+
 def main():
     cli()
