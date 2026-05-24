@@ -1,0 +1,4 @@
+def undo_fix_8_356(code):
+    return code.replace('\t', '    ')
+    return code.replace('    ', '\t')
+def fix_issue_8_356(code):
